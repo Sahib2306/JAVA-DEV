@@ -19,5 +19,9 @@ public class FarmerService {
     public String deleteCrop(String cropId) {
         return cropId; 
     }
+    public boolean addCrop(Crop crop) {
+        System.out.println("Crop Added: " + crop.toString());
+        return true;
+    }
 
 }
