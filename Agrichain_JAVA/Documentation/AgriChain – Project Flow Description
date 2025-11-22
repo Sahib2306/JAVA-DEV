@@ -1,0 +1,169 @@
+===============================
+        AGRICHAIN SYSTEM
+===============================
+
+This document explains the logical flow of the AgriChain project based on
+the folder structure and role-based operations.
+
+---------------------------------------------------------
+1. MAIN MODULE (Entry Point)
+---------------------------------------------------------
+File: AgriChainMain.java
+
+• Starts the application.
+• Displays the login screen.
+• Takes userId and password.
+• Calls AuthService to validate login.
+• Based on the user's role, loads the appropriate dashboard:
+    - FarmerDashboard
+    - BuyerDashboard
+    - ConsumerDashboard
+    - TransporterDashboard
+
+---------------------------------------------------------
+2. MODEL LAYER (Data Models)
+---------------------------------------------------------
+
+These classes store only the information needed for each entity.
+They contain NO business logic and NO ArrayLists (since JDBC will be used).
+
+2.1 User.java
+• Base class for all roles.
+• Contains: userId, name, password, role.
+• Parent class for Farmer, Buyer, Consumer, Transporter.
+
+2.2 Farmer.java
+• Inherits User.
+• Does not store crop list (database will handle that).
+• Stores only farmer information.
+
+2.3 Buyer.java
+• Inherits User.
+• Does not store order list (database will handle buyer orders).
+• Represents users who buy crops.
+
+2.4 Consumer.java
+• Inherits User.
+• Does not store purchase history.
+• Represents the end-user who buys for consumption.
+
+2.5 Transporter.java
+• Inherits User.
+• Contains vehicleId.
+• Does not store assigned orders (database will handle delivery assignments).
+
+2.6 Crop.java
+• Represents a crop record.
+• Contains cropId, name, quantity, price, and farmerId.
+
+2.7 Order.java
+• Represents an order made by Buyer or Consumer.
+• Contains orderId, userId, cropId, quantity, status.
+
+---------------------------------------------------------
+3. SERVICE LAYER (Business Logic)
+---------------------------------------------------------
+
+These classes perform the operations requested by dashboards.
+They DO NOT store data; they only create/update objects.
+Database operations will be added later using JDBC.
+
+3.1 AuthService.java
+• Validates login credentials.
+• Returns User object after successful login.
+• Chooses the user role (FARMER, BUYER, CONSUMER, TRANSPORTER).
+
+3.2 FarmerService.java
+• Allows farmers to:
+    - Create crops (later will save to DB)
+    - Update crop quantity
+    - Delete crop (returns cropId for DB deletion)
+
+3.3 BuyerService.java
+• Allows buyers to:
+    - Create new purchase orders
+    - Update order status
+    - Cancel orders
+
+3.4 ConsumerService.java
+• Similar to BuyerService but meant for consumers.
+• Handles:
+    - Creating purchases
+    - Updating the order status
+    - Cancelling orders
+
+3.5 TransporterService.java
+• Responsible for:
+    - Accepting delivery tasks
+    - Marking orders as delivered
+• Database will store delivery assignments.
+
+3.6 FileService.java  (Optional if using JDBC)
+• Handles reading/writing text files if needed.
+• Will be replaced with DB operations in JDBC version.
+
+---------------------------------------------------------
+4. GUI LAYER (User Interface)
+---------------------------------------------------------
+
+Each role has its own dashboard.  
+Only triggers methods in the Service layer.
+
+4.1 LoginGUI.java
+• Inputs user credentials.
+• Calls AuthService.
+• Redirects to correct dashboard.
+
+4.2 FarmerDashboard.java
+• Add crop
+• Update quantity
+• View crops
+• Delete crops
+
+4.3 BuyerDashboard.java
+• Browse crops
+• Place orders
+• View order status
+
+4.4 ConsumerDashboard.java
+• Browse crops
+• Purchase crops
+• Track order delivery
+
+4.5 TransporterDashboard.java
+• View assigned orders
+• Mark them as delivered
+
+---------------------------------------------------------
+5. DATA STORAGE (Text Files or Database)
+---------------------------------------------------------
+
+data/users.txt
+    - Stores userId,password,role
+
+data/crops.txt
+    - Stores crops: id, name, price, quantity, farmerId
+
+data/orders.txt
+    - Stores order records
+
+data/deliveries.txt
+    - Stores transporter delivery updates
+
+(Note: When you move to JDBC, this folder will be replaced by database tables.)
+
+---------------------------------------------------------
+6. FLOW SUMMARY
+---------------------------------------------------------
+
+Step 1: User starts the application
+Step 2: Login through AuthService
+Step 3: Dashboard opens based on role
+Step 4: User performs actions (create crop, order crop, deliver crop)
+Step 5: Service classes process the logic
+Step 6: Data stored in text files or database
+Step 7: User logs out or exits
+
+---------------------------------------------------------
+END OF FILE
+---------------------------------------------------------

@@ -1,0 +1,116 @@
+===============================
+      AGRICHAIN FLOW (ARROWS)
+===============================
+
+START
+  ↓
+User opens AgriChainMain
+  ↓
+Login Screen (LoginGUI)
+  ↓
+User enters userId + password
+  ↓
+AuthService.validateLogin()
+  ↓
+ ┌──────────────────────────────────────────┐
+ │  IF authentication fails → Show Error → RETURN to Login  │
+ └──────────────────────────────────────────┘
+  ↓
+Authentication Success
+  ↓
+AuthService identifies ROLE
+  ↓
+────────────────────────────────────────────
+        ROLE-BASED DASHBOARD ROUTING
+────────────────────────────────────────────
+
+IF role == FARMER
+      ↓
+  FarmerDashboard
+      ↓
+  Farmer actions:
+      ↓
+  Add Crop  → FarmerService.addCrop()
+      ↓
+  Update Crop → FarmerService.updateCrop()
+      ↓
+  View My Crops → FarmerService.getCrops()
+      ↓
+  (Save/Read in crops.txt or DB)
+      ↓
+  BACK TO DASHBOARD
+
+IF role == BUYER
+      ↓
+  BuyerDashboard
+      ↓
+  Browse Crops → BuyerService.listCrops()
+      ↓
+  Place Order → BuyerService.placeOrder()
+      ↓
+  Track Order → BuyerService.trackOrder()
+      ↓
+  (Save/Read in orders.txt or DB)
+      ↓
+  BACK TO DASHBOARD
+
+IF role == CONSUMER
+      ↓
+  ConsumerDashboard
+      ↓
+  Browse Crops → ConsumerService.listCrops()
+      ↓
+  Buy Crop → ConsumerService.createOrder()
+      ↓
+  View Purchase History → ConsumerService.viewOrders()
+      ↓
+  (Save/Read in orders.txt or DB)
+      ↓
+  BACK TO DASHBOARD
+
+IF role == TRANSPORTER
+      ↓
+  TransporterDashboard
+      ↓
+  View Assigned Deliveries → TransporterService.getAssignedOrders()
+      ↓
+  Mark Delivered → TransporterService.updateStatus()
+      ↓
+  (Save/Read in deliveries.txt or DB)
+      ↓
+  BACK TO DASHBOARD
+
+────────────────────────────────────────────
+             ORDER FLOW (Shared)
+────────────────────────────────────────────
+
+Buyer/Consumer places order
+      ↓
+OrderService / BuyerService creates new Order
+      ↓
+Order saved to orders.txt / DB
+      ↓
+Transporter sees pending delivery
+      ↓
+Transporter marks order as Delivered
+      ↓
+Order status updated in orders.txt / DB
+      ↓
+Buyer/Consumer can track delivery
+
+────────────────────────────────────────────
+              SYSTEM EXIT
+────────────────────────────────────────────
+
+User selects "Logout"
+      ↓
+Return to Login Screen
+      ↓
+OR
+User selects "Exit"
+      ↓
+APPLICATION ENDS
+
+===============================
+            END OF FLOW
+===============================

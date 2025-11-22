@@ -1,0 +1,44 @@
+AgriChain/
+│
+├── src/
+│   └── agrichain/
+│       │
+│       ├── main/
+│       │   └── AgriChainMain.java           # Entry point – runs login + role menu
+│       │
+│       ├── model/                           # Data model layer (from class diagram)
+│       │   ├── User.java                    # Base class (userId, name, password, role)
+│       │   ├── Farmer.java                  # Inherits User; adds crops, updates stock
+│       │   ├── Buyer.java                   # Inherits User; browses, orders crops
+│       │   ├── Consumer.java                # Inherits User; orders and views history
+│       │   ├── Transporter.java             # Inherits User; handles delivery updates
+│       │   ├── Crop.java                    # Represents crop info
+│       │   └── Order.java                   # Represents order data
+│       │
+│       ├── service/                         # Business logic layer
+│       │   ├── AuthService.java             # Login, logout, role check
+│       │   ├── FarmerService.java           # Add crop, update availability, view orders
+│       │   ├── BuyerService.java            # Browse crops, place order, track order
+│       │   ├── ConsumerService.java         # Browse crops, place order, view history
+│       │   ├── TransporterService.java      # View & update deliveries
+│       │   └── FileService.java             # Handles all file read/write ops
+│       │
+│       ├── gui/                             # User interface (CLI/GUI)
+│       │   ├── LoginGUI.java                # Login screen
+│       │   ├── FarmerDashboard.java         # Menu for farmer actions
+│       │   ├── BuyerDashboard.java          # Menu for buyer actions
+│       │   ├── ConsumerDashboard.java       # Menu for consumer actions
+│       │   └── TransporterDashboard.java    # Menu for transporter actions
+│       │
+│       └── util/                            # Utility functions
+│           ├── IDGenerator.java             # Auto-generate IDs for crops/orders
+│           ├── InputValidator.java          # Validate inputs
+│           └── RoleConstants.java           # Stores role names (FARMER, BUYER, etc.)
+│
+├── data/                                    # File storage using File Handling
+│   ├── users.txt                            # Login info (userId, password, role)
+│   ├── crops.txt                            # Crop records
+│   ├── orders.txt                           # Orders placed
+│   └── deliveries.txt                       # Delivery updates by transporter
+│
+└── README.md                                # Documentation
