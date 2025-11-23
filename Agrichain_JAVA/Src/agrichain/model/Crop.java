@@ -1,14 +1,15 @@
 package agrichain.model;
 
 public class Crop {
+
     private String cropId;
-    private String name;
+    private String cropName;
     private double quantity;
     private double price;
 
-    public Crop(String cropId, String name, double quantity, double price) {
+    public Crop(String cropId, String cropName, double quantity, double price) {
         this.cropId = cropId;
-        this.name = name;
+        this.cropName = cropName;
         this.quantity = quantity;
         this.price = price;
     }
@@ -17,8 +18,8 @@ public class Crop {
         return cropId;
     }
 
-    public String getName() {
-        return name;
+    public String getCropName() {
+        return cropName;
     }
 
     public double getQuantity() {
@@ -29,16 +30,8 @@ public class Crop {
         return price;
     }
 
-    public void setQuantity(double quantity) {
-        this.quantity = quantity;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    
+    @Override
     public String toString() {
-        return cropId + "," + name + "," + quantity + "," + price;
+        return cropId + "," + cropName + "," + quantity + "," + price;
     }
 }

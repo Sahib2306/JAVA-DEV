@@ -1,6 +1,7 @@
 package agrichain.model;
 
 public class User {
+
     private String userId;
     private String name;
     private String password;
@@ -33,9 +34,8 @@ public class User {
         this.password = password;
     }
 
+    
     public String toString() {
         return userId + "," + name + "," + password + "," + role;
     }
-    
-
 }

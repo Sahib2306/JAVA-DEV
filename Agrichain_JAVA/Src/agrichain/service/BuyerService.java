@@ -1,20 +1,16 @@
 package agrichain.service;
 
-import agrichain.model.Crop;
 import agrichain.model.Order;
 
 public class BuyerService {
 
-    public Order createOrder(String orderId, String buyerId, Crop crop, double quantity) {
-        
-        return new Order(orderId,buyerId,crop.getCropId(),  quantity,"PENDING");
+    public boolean makeOrder(Order o) {
+
+        System.out.println("Placing order for crop id : " + o.getCropId());
+        return true;
     }
 
-    public void updateOrderStatus(Order order, String newStatus) {
-        order.setStatus(newStatus);
-    }
-
-    public String cancelOrder(String orderId) {
-        return orderId;
+    public void showCrops() {
+        System.out.println("Crop list will show here after DB");
     }
 }

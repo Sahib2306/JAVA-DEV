@@ -4,28 +4,26 @@ import agrichain.model.Order;
 
 public class TransporterService {
 
-    public void deliverOrder(final Order order) {
+    public void deliver(Order o) {
 
-        // Runnable object
-        Runnable deliveryTask = new Runnable() {
-            
+        Thread t = new Thread(new Runnable() {
             public void run() {
-                System.out.println("Delivering order: " + order.getOrderId());
-
                 try {
-                    Thread.sleep(2000); // simulate delivery time
-                } catch (InterruptedException e) {
-                    System.out.println("Delivery interrupted!");
+                    System.out.println("Delivery started for : " + o.getOrderId());
+                    Thread.sleep(3000);
+                    o.setStatus("DELIVERED");
+                    System.out.println("Delivery completed for : " + o.getOrderId());
+                } 
+                catch (Exception e) {
+                    System.out.println("Delivery Interrupted");
                 }
-
-                order.setStatus("Delivered");
-                System.out.println("Order delivered: " + order.getOrderId());
             }
-        };
-
-        // Thread object created using Runnable
-        Thread t = new Thread(deliveryTask);
+        });
 
         t.start();
+    }
+
+    public void status(Order o) {
+        System.out.println("Current status : " + o.getStatus());
     }
 }

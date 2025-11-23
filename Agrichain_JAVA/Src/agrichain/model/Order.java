@@ -1,11 +1,12 @@
 package agrichain.model;
 
 public class Order {
+
     private String orderId;
     private String buyerId;
     private String cropId;
     private double quantity;
-    private String status; 
+    private String status; // PENDING / DELIVERED
 
     public Order(String orderId, String buyerId, String cropId, double quantity, String status) {
         this.orderId = orderId;
@@ -39,9 +40,8 @@ public class Order {
         this.status = status;
     }
 
-   
+    @Override
     public String toString() {
         return orderId + "," + buyerId + "," + cropId + "," + quantity + "," + status;
     }
-    
 }
