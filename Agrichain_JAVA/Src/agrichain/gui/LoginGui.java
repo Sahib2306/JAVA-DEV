@@ -6,123 +6,120 @@ import agrichain.service.AuthService;
 
 public class LoginGui extends Frame implements ActionListener {
 
-    Label titleLabel, userLabel, passLabel, roleLabel;
-    TextField userField, passField;
+    Label lblTitle, lblUser, lblPass, lblRole;
+    TextField txtUser, txtPass;
     Choice roleChoice;
-    Button loginBtn, exitBtn;
+    Button btnLogin, btnExit;
 
-    AuthService as = new AuthService();   // service object
+    AuthService as = new AuthService();
 
     public LoginGui() {
 
-        // Frame settings
-        this.setTitle("AgriChain Login");
-        this.setSize(400, 350);
-        this.setLayout(null);
-        Color c = new Color(30,30,30);
-        this.setBackground(c);
+        setTitle("AgriChain Login");
+        setSize(400, 350);
+        setLayout(null);
+        setBackground(new Color(30,30,30));
 
-        Font titleFont = new Font("Arial", Font.BOLD, 20);
-        Font labelFont = new Font("Arial", Font.BOLD, 16);
+        Font f1 = new Font("Arial", Font.BOLD, 20);
+        Font f2 = new Font("Arial", Font.BOLD, 16);
 
-        // Title
-        titleLabel = new Label("Agrichain Login");
-        titleLabel.setBounds(120, 50, 200, 30);
-        titleLabel.setFont(titleFont);
-        titleLabel.setForeground(Color.WHITE);
-        this.add(titleLabel);
+        lblTitle = new Label("AgriChain Login");
+        lblTitle.setBounds(120, 50, 200, 30);
+        lblTitle.setFont(f1);
+        lblTitle.setForeground(Color.WHITE);
+        add(lblTitle);
 
-        // User label + field
-        userLabel = new Label("User ID:");
-        userLabel.setBounds(60, 110, 100, 25);
-        userLabel.setFont(labelFont);
-        userLabel.setForeground(Color.WHITE);
-        this.add(userLabel);
+        lblUser = new Label("User ID:");
+        lblUser.setBounds(60,110,100,25);
+        lblUser.setFont(f2);
+        lblUser.setForeground(Color.WHITE);
+        add(lblUser);
 
-        userField = new TextField();
-        userField.setBounds(160, 110, 180, 25);
-        this.add(userField);
+        txtUser = new TextField();
+        txtUser.setBounds(160,110,180,25);
+        add(txtUser);
 
-        // Password label + field
-        passLabel = new Label("Password:");
-        passLabel.setBounds(60, 150, 100, 25);
-        passLabel.setFont(labelFont);
-        passLabel.setForeground(Color.WHITE);
-        this.add(passLabel);
+        lblPass = new Label("Password:");
+        lblPass.setBounds(60,150,100,25);
+        lblPass.setFont(f2);
+        lblPass.setForeground(Color.WHITE);
+        add(lblPass);
 
-        passField = new TextField();
-        passField.setBounds(160, 150, 180, 25);
-        passField.setEchoChar('*');
-        this.add(passField);
+        txtPass = new TextField();
+        txtPass.setBounds(160,150,180,25);
+        txtPass.setEchoChar('*');
+        add(txtPass);
 
-        // Role label
-        roleLabel = new Label("Role:");
-        roleLabel.setBounds(60, 190, 100, 25);   // FIXED (previously 250 height)
-        roleLabel.setFont(labelFont);
-        roleLabel.setForeground(Color.WHITE);
-        this.add(roleLabel);
+        lblRole = new Label("Role:");
+        lblRole.setBounds(60,190,100,25);
+        lblRole.setFont(f2);
+        lblRole.setForeground(Color.WHITE);
+        add(lblRole);
 
-        // Role dropdown
         roleChoice = new Choice();
         roleChoice.add("FARMER");
         roleChoice.add("BUYER");
         roleChoice.add("CONSUMER");
         roleChoice.add("TRANSPORTER");
-        roleChoice.setBounds(160, 190, 180, 25);
-        this.add(roleChoice);
+        roleChoice.setBounds(160,190,180,25);
+        add(roleChoice);
 
-        // Buttons
-        loginBtn = new Button("Login");
-        loginBtn.setBounds(120, 240, 70, 30);
-        loginBtn.addActionListener(this);
-        this.add(loginBtn);
+        btnLogin = new Button("Login");
+        btnLogin.setBounds(120,240,70,30);
+        btnLogin.addActionListener(this);
+        add(btnLogin);
 
-        exitBtn = new Button("Exit");
-        exitBtn.setBounds(210, 240, 70, 30);
-        exitBtn.addActionListener(this);
-        this.add(exitBtn);
+        btnExit = new Button("Exit");
+        btnExit.setBounds(210,240,70,30);
+        btnExit.addActionListener(this);
+        add(btnExit);
 
-        // Close window
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 dispose();
             }
         });
 
-        this.setVisible(true);
+        setVisible(true);
     }
 
-    // Button actions
-    @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (e.getSource() == loginBtn) {
+        if(e.getSource() == btnLogin) {
 
-            String id = userField.getText();
-            String pass = passField.getText();
+            String id = txtUser.getText();
+            String pass = txtPass.getText();
             String role = roleChoice.getSelectedItem();
 
-            // Temporary login check using AuthService
             boolean ok = as.login(id, pass, role);
 
-            if (ok) {
+            if(ok) {
                 System.out.println("Login Success!");
 
-                if(role.equals("FARMER")){
+                if(role.equals("FARMER")) {
                     new FarmerDashboard(id);
                     dispose();
                 }
-            } else {
+                else if(role.equals("BUYER")) {
+                    new BuyerDashboard(id);
+                    dispose();
+                }
+                else if(role.equals("CONSUMER")) {
+                    new ConsumerDashboard(id);
+                    dispose();
+                }
+                else if(role.equals("TRANSPORTER")) {
+                    new TransporterDashboard(id);
+                    dispose();
+                }
+            }
+            else {
                 System.out.println("Login Failed!");
             }
         }
 
-        if (e.getSource() == exitBtn) {
+        if(e.getSource() == btnExit) {
             dispose();
         }
-    }
-
-    public static void main(String[] args) {
-        new LoginGui();
     }
 }
