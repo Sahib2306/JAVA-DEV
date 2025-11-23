@@ -4,25 +4,14 @@ import agrichain.model.Crop;
 
 public class FarmerService {
 
-    
-    public Crop createCrop(String cropId, String name, int quantity, double price) {
-        return new Crop(cropId, name, quantity, price);
+    public boolean saveCrop(Crop crop) {
+
+        // In future replace with DB insert
+        System.out.println("Saving Crop -> " + crop.getCropName());
+        return true;  // just confirmation
     }
 
-    
-    public Crop updateCrop(Crop crop, int newQuantity) {
-        crop.setQuantity(newQuantity);
-        return crop;
+    public void showOrders() {
+        System.out.println("Orders view will be added after DB");
     }
-
-    
-    public String deleteCrop(String cropId) {
-        return cropId; 
-    }
-    
-    public boolean addCrop(Crop crop) {
-        System.out.println("Crop Added: " + crop.toString());
-        return true;
-    }
-
 }
