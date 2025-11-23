@@ -19,7 +19,8 @@ public class LoginGui extends Frame implements ActionListener {
         this.setTitle("AgriChain Login");
         this.setSize(400, 350);
         this.setLayout(null);
-        this.setBackground(new Color(30, 30, 30));
+        Color c = new Color(30,30,30);
+        this.setBackground(c);
 
         Font titleFont = new Font("Arial", Font.BOLD, 20);
         Font labelFont = new Font("Arial", Font.BOLD, 16);
@@ -106,6 +107,11 @@ public class LoginGui extends Frame implements ActionListener {
 
             if (ok) {
                 System.out.println("Login Success!");
+
+                if(role.equals("FARMER")){
+                    new FarmerDashboard(id);
+                    dispose();
+                }
             } else {
                 System.out.println("Login Failed!");
             }
