@@ -1,62 +1,26 @@
 package agrichain.service;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-
 public class AuthService {
 
-    String path = "data/users.txt";
-
+    // Hardcoded sample users for login (temporary until JDBC)
     public boolean login(String id, String pass, String role) {
 
-        boolean flag = false;
-        String temp = "";
-
-        try {
-            FileReader fr = new FileReader(path);
-            int ch;
-
-            
-            while ((ch = fr.read()) != -1) {
-                temp = temp + (char) ch;
-            }
-
-            fr.close();
-
-            // split lines
-            String lines[] = temp.split("\n");
-
-            for (int i = 0; i < lines.length; i++) {
-
-                String arr[] = lines[i].split(",");
-
-                // arr[0]=id, arr[1]=name, arr[2]=pass, arr[3]=role
-                if (arr.length == 4) {
-                    if (id.equals(arr[0]) && pass.equals(arr[2]) &&
-                        role.equalsIgnoreCase(arr[3])) {
-                        flag = true;
-                        break;
-                    }
-                }
-            }
+        // sample manual login records
+        if(id.equals("1001") && pass.equals("pass") && role.equalsIgnoreCase("FARMER")) {
+            return true;
         }
-        catch (Exception e) {
-            System.out.println("File Read Error");
+        if(id.equals("2001") && pass.equals("1234") && role.equalsIgnoreCase("BUYER")) {
+            return true;
+        }
+        if(id.equals("3001") && pass.equals("1111") && role.equalsIgnoreCase("CONSUMER")) {
+            return true;
+        }
+        if(id.equals("4001") && pass.equals("999") && role.equalsIgnoreCase("TRANSPORTER")) {
+            return true;
         }
 
-        return flag;
+        return false;  // for wrong credentials
     }
 
-    
-    public void registerUser(String line) {
-        try {
-            FileWriter fw = new FileWriter(path, true); 
-            fw.write("\n" + line);
-            fw.close();
-            System.out.println("User registered");
-        }
-        catch (Exception e) {
-            System.out.println("File Write Error");
-        }
-    }
+    // register removed since no file handling
 }
