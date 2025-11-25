@@ -1,26 +1,21 @@
 package agrichain.data;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class DBConnection {
-    
 
-    // getConn method will create and return a connection with db
-    public static Connection getConn(){
-        Connection conn = null;
-
-        try{
-            // it tells the jdk that we r using sqlite
+    public static Connection getConn() {
+        Connection con = null;
+        try {
             Class.forName("org.sqlite.JDBC");
-
-            // Creates a connection to the database file agrichain.db
-            // If this file does not exist, SQLite will create it automatically
-            conn = DriverManager.getConnection("jdbc:sqlite:Data/agrichain.db");
+            con = DriverManager.getConnection("jdbc:sqlite:Src/agrichain/data/agrichain.sqlite");
+            System.out.println("DB Connected");
         }
-        catch(Exception e){
-            System.out.println("DataBase Connection Error");
+        catch(Exception e) {
+            System.out.println("DB NOT CONNECTED");
+            e.printStackTrace();
         }
-
-        return conn; // returning the Connection object
+        return con;
     }
 }
