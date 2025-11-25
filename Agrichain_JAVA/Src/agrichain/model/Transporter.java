@@ -2,7 +2,7 @@ package agrichain.model;
 
 public class Transporter extends User {
 
-    private String vehicleId;
+    public  String vehicleId;
 
     public Transporter(String userId, String name, String password, String vehicleId) {
         super(userId, name, password, "TRANSPORTER");
