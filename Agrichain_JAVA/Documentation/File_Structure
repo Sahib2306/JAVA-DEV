@@ -1,44 +1,43 @@
-AgriChain/
+AgriChain_JAVA/
 │
-├── src/
-│   └── agrichain/
-│       │
-│       ├── main/
-│       │   └── AgriChainMain.java           # Entry point – runs login + role menu
-│       │
-│       ├── model/                           # Data model layer (from class diagram)
-│       │   ├── User.java                    # Base class (userId, name, password, role)
-│       │   ├── Farmer.java                  # Inherits User; adds crops, updates stock
-│       │   ├── Buyer.java                   # Inherits User; browses, orders crops
-│       │   ├── Consumer.java                # Inherits User; orders and views history
-│       │   ├── Transporter.java             # Inherits User; handles delivery updates
-│       │   ├── Crop.java                    # Represents crop info
-│       │   └── Order.java                   # Represents order data
-│       │
-│       ├── service/                         # Business logic layer
-│       │   ├── AuthService.java             # Login, logout, role check
-│       │   ├── FarmerService.java           # Add crop, update availability, view orders
-│       │   ├── BuyerService.java            # Browse crops, place order, track order
-│       │   ├── ConsumerService.java         # Browse crops, place order, view history
-│       │   ├── TransporterService.java      # View & update deliveries
-│       │   └── FileService.java             # Handles all file read/write ops
-│       │
-│       ├── gui/                             # User interface (CLI/GUI)
-│       │   ├── LoginGUI.java                # Login screen
-│       │   ├── FarmerDashboard.java         # Menu for farmer actions
-│       │   ├── BuyerDashboard.java          # Menu for buyer actions
-│       │   ├── ConsumerDashboard.java       # Menu for consumer actions
-│       │   └── TransporterDashboard.java    # Menu for transporter actions
-│       │
-│       └── util/                            # Utility functions
-│           ├── IDGenerator.java             # Auto-generate IDs for crops/orders
-│           ├── InputValidator.java          # Validate inputs
-│           └── RoleConstants.java           # Stores role names (FARMER, BUYER, etc.)
+├── Data/                               # (Optional folder for future JDBC / CSV later)
+│   └── users.txt                       # (Not used now — only placeholder)
 │
-├── data/                                    # File storage using File Handling
-│   ├── users.txt                            # Login info (userId, password, role)
-│   ├── crops.txt                            # Crop records
-│   ├── orders.txt                           # Orders placed
-│   └── deliveries.txt                       # Delivery updates by transporter
+├── Documentation/                      # reports / ppt / diagrams
+│   └── Project Report.pdf
 │
-└── README.md                                # Documentation
+└── Src/
+    └── agrichain/
+        │
+        ├── main/
+        │   └── AgriChainMain.java      # Entry/start point
+        │
+        ├── gui/                        # ALL UI screens (AWT full screen & navigation)
+        │   ├── MainPage.java           # First screen (Login / Signup)
+        │   ├── LoginGui.java           # Login window
+        │   ├── SignUpGui.java          # Register window
+        │   ├── HomeDashboard.java      # Tile style dashboard (role selection)
+        │   ├── FarmerDashboard.java    # Farmer UI with canvas
+        │   ├── BuyerDashboard.java     # Buyer UI with canvas
+        │   ├── ConsumerDashboard.java  # Consumer UI with canvas
+        │   └── TransporterDashboard.java # Transporter UI + progress bar + multithread
+        │
+        ├── model/                      # All core data classes (pure OOP)
+        │   ├── User.java               # Base class (id,name,password,role)
+        │   ├── Farmer.java             # Farmer specific object
+        │   ├── Buyer.java              # Buyer specific object
+        │   ├── Consumer.java           # Consumer specific object
+        │   ├── Transporter.java        # Transporter specific object + vehicle
+        │   ├── Crop.java               # Crop data model
+        │   └── Order.java              # Order model
+        │
+        ├── service/                     # Logic layer (no file, no db, no gui)
+        │   ├── AuthService.java         # Validate login (hardcoded users)
+        │   ├── FarmerService.java       # Dummy crop add / print actions
+        │   ├── BuyerService.java        # Dummy order place / view
+        │   ├── ConsumerService.java     # Dummy history reference
+        │   └── TransporterService.java  # Multithreading delivery progress simulation
+        │
+        └── util/                        # Utility helper classes
+            ├── IDGenerator.java         # (Optional) auto id for orders / crops
+            └── InputValidator.java      # Simple validation (empty fields / numbers)
