@@ -2,80 +2,93 @@ package agrichain.gui;
 
 import java.awt.*;
 import java.awt.event.*;
-import agrichain.model.Crop;
-import agrichain.service.FarmerService;
 
 public class FarmerDashboard extends Frame implements ActionListener {
 
-    Label lblTitle, lblCname, lblQty, lblPrice;
-    TextField txtCname, txtQty, txtPrice;
-    Button btnAdd, btnOrders, btnBack;
+    Label title, cropLabel, qtyLabel, priceLabel, bottomCanvas;
+    TextField cropField, qtyField, priceField;
+    Button addBtn, viewBtn, backBtn;
 
-    FarmerService fs = new FarmerService();
-    String farmerId;
+    public FarmerDashboard() {
 
-    public FarmerDashboard(String id) {
-        farmerId = id;
-
-        setTitle("Farmer Dashboard - " + id);
-        setSize(450,400);
+        setTitle("Farmer Dashboard");
         setLayout(null);
-        setBackground(new Color(30,30,30));
+        setExtendedState(Frame.MAXIMIZED_BOTH);
+        setBackground(Color.black);
         setVisible(true);
 
-        Font f1 = new Font("Arial",Font.BOLD,20);
-        Font f2 = new Font("Arial",Font.BOLD,16);
+        Dimension s = Toolkit.getDefaultToolkit().getScreenSize();
+        int w = s.width;
+        int h = s.height;
 
-        lblTitle = new Label("Farmer Dashboard");
-        lblTitle.setBounds(120,50,250,30);
-        lblTitle.setFont(f1);
-        lblTitle.setForeground(Color.WHITE);
-        add(lblTitle);
+        Font titleFont = new Font("Arial", Font.BOLD, 45);
+        Font labelFont = new Font("Arial", Font.BOLD, 22);
 
-        lblCname = new Label("Crop Name:");
-        lblCname.setBounds(60,120,120,25);
-        lblCname.setFont(f2);
-        lblCname.setForeground(Color.WHITE);
-        add(lblCname);
+        title = new Label("FARMER DASHBOARD");
+        title.setFont(titleFont);
+        title.setForeground(new Color(0,255,150));
+        title.setBounds(w/2 - 250, h/6, 500, 60);
+        add(title);
 
-        txtCname = new TextField();
-        txtCname.setBounds(190,120,180,25);
-        add(txtCname);
+        cropLabel = new Label("Crop Name:");
+        cropLabel.setFont(labelFont);
+        cropLabel.setForeground(Color.white);
+        cropLabel.setBounds(w/2 - 300, h/3 - 20, 150, 30);
+        add(cropLabel);
 
-        lblQty = new Label("Quantity:");
-        lblQty.setBounds(60,160,120,25);
-        lblQty.setFont(f2);
-        lblQty.setForeground(Color.WHITE);
-        add(lblQty);
+        cropField = new TextField();
+        cropField.setBounds(w/2 - 100, h/3 - 20, 350, 30);
+        add(cropField);
 
-        txtQty = new TextField();
-        txtQty.setBounds(190,160,180,25);
-        add(txtQty);
+        qtyLabel = new Label("Quantity:");
+        qtyLabel.setFont(labelFont);
+        qtyLabel.setForeground(Color.white);
+        qtyLabel.setBounds(w/2 - 300, h/3 + 30, 150, 30);
+        add(qtyLabel);
 
-        lblPrice = new Label("Price:");
-        lblPrice.setBounds(60,200,120,25);
-        lblPrice.setFont(f2);
-        lblPrice.setForeground(Color.WHITE);
-        add(lblPrice);
+        qtyField = new TextField();
+        qtyField.setBounds(w/2 - 100, h/3 + 30, 350, 30);
+        add(qtyField);
 
-        txtPrice = new TextField();
-        txtPrice.setBounds(190,200,180,25);
-        add(txtPrice);
+        priceLabel = new Label("Price:");
+        priceLabel.setFont(labelFont);
+        priceLabel.setForeground(Color.white);
+        priceLabel.setBounds(w/2 - 300, h/3 + 80, 150, 30);
+        add(priceLabel);
 
-        btnAdd = new Button("Add Crop");
-        btnAdd.setBounds(70,260,100,30);
-        btnAdd.addActionListener(this);
-        add(btnAdd);
+        priceField = new TextField();
+        priceField.setBounds(w/2 - 100, h/3 + 80, 350, 30);
+        add(priceField);
 
-        btnOrders = new Button("View Orders");
-        btnOrders.setBounds(180,260,100,30);
-        btnOrders.addActionListener(this);
-        add(btnOrders);
+        addBtn = new Button("ADD CROP");
+        addBtn.setBackground(new Color(0,255,150));
+        addBtn.setForeground(Color.black);
+        addBtn.setFont(labelFont);
+        addBtn.setBounds(w/2 - 260, h/3 + 160, 200, 45);
+        addBtn.addActionListener(this);
+        add(addBtn);
 
-        btnBack = new Button("Back");
-        btnBack.setBounds(290,260,80,30);
-        btnBack.addActionListener(this);
-        add(btnBack);
+        viewBtn = new Button("VIEW CROPS");
+        viewBtn.setBackground(Color.darkGray);
+        viewBtn.setForeground(Color.white);
+        viewBtn.setFont(labelFont);
+        viewBtn.setBounds(w/2 + 40, h/3 + 160, 200, 45);
+        viewBtn.addActionListener(this);
+        add(viewBtn);
+
+        backBtn = new Button("BACK");
+        backBtn.setBackground(Color.gray);
+        backBtn.setForeground(Color.black);
+        backBtn.setFont(labelFont);
+        backBtn.setBounds(w/2 - 100, h/3 + 240, 200, 45);
+        backBtn.addActionListener(this);
+        add(backBtn);
+
+        bottomCanvas = new Label("AgriChain — Farmer Operations");
+        bottomCanvas.setAlignment(Label.CENTER);
+        bottomCanvas.setForeground(Color.gray);
+        bottomCanvas.setBounds(0, h - 80, w, 50);
+        add(bottomCanvas);
 
         addWindowListener(new WindowAdapter(){
             public void windowClosing(WindowEvent e){
@@ -85,23 +98,15 @@ public class FarmerDashboard extends Frame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-
-        if(e.getSource()==btnAdd) {
-            String name = txtCname.getText();
-            double qty = Double.parseDouble(txtQty.getText());
-            double price = Double.parseDouble(txtPrice.getText());
-
-            Crop c = new Crop("TEMP", name, qty, price);
-            fs.saveCrop(c);
-
-            System.out.println("Crop Added -> " + name);
+        if(e.getSource() == addBtn){
+            System.out.println("Add crop clicked");
         }
-        if(e.getSource()==btnOrders) {
-            fs.showOrders();
+        if(e.getSource() == viewBtn){
+            System.out.println("View crops clicked");
         }
-        if(e.getSource()==btnBack) {
-            dispose();
+        if(e.getSource() == backBtn){
             new LoginGui();
+            dispose();
         }
     }
 }

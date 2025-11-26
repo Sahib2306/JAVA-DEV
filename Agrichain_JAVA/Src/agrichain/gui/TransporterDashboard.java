@@ -3,89 +3,72 @@ package agrichain.gui;
 import java.awt.*;
 import java.awt.event.*;
 
-import agrichain.model.Order;
-import agrichain.service.TransporterService;
+public class TransporterDashboard extends Frame implements ActionListener {
 
+    Label title, bottomCanvas;
+    Button viewBtn, deliverBtn, backBtn;
 
-public class TransporterDashboard extends Frame implements ActionListener{
-    
-    Label lbtitle, lbOrderId;
-    TextField txtOrderId;
-    Button btnDeliver, btnStatus, btnBack;
+    public TransporterDashboard() {
 
-    TransporterService ts = new TransporterService();
-    String tid;
+        setTitle("Transporter Dashboard");
+        setLayout(null);
+        setExtendedState(Frame.MAXIMIZED_BOTH);
+        setBackground(Color.black);
+        setVisible(true);
 
-    public TransporterDashboard( String id){
-        tid = id;
+        Dimension s = Toolkit.getDefaultToolkit().getScreenSize();
+        int w = s.width;
+        int h = s.height;
 
-        this.setTitle("Transporter Dashboard - "+id);
-        this.setSize(450,320);
-        this.setLayout(null);
-        Color background = new Color(30,30,30);
-        this.setBackground(background);
-        this.setVisible(true);
+        Font titleFont = new Font("Arial", Font.BOLD, 45);
+        Font btnFont = new Font("Arial", Font.BOLD, 22);
 
+        title = new Label("TRANSPORTER DASHBOARD");
+        title.setFont(titleFont);
+        title.setForeground(new Color(0,255,150));
+        title.setBounds(w/2 - 350, h/6, 700, 60);
+        add(title);
 
-        Font f1 = new Font("Arial",Font.BOLD,20);
-        Font f2 = new Font("Arial",Font.BOLD,16);
+        viewBtn = new Button("VIEW ASSIGNED ORDERS");
+        viewBtn.setFont(btnFont);
+        viewBtn.setBackground(new Color(0,255,150));
+        viewBtn.setBounds(w/2 - 350, h/3, 300, 60);
+        viewBtn.addActionListener(this);
+        add(viewBtn);
 
-        lbtitle = new Label("Transporter Dashboard");
-        lbtitle.setBounds(110,50,260,30);
-        lbtitle.setFont(f1);
-        Color c = Color.WHITE;
-        lbtitle.setBackground(c);
-        this.add(lbtitle);
+        deliverBtn = new Button("DELIVER ORDER");
+        deliverBtn.setFont(btnFont);
+        deliverBtn.setBackground(Color.darkGray);
+        deliverBtn.setForeground(Color.white);
+        deliverBtn.setBounds(w/2 + 50, h/3, 300, 60);
+        deliverBtn.addActionListener(this);
+        add(deliverBtn);
 
-        lbOrderId = new Label("Order ID: ");
-        lbOrderId.setBounds(60,130,120,25);
-        lbOrderId.setForeground(c);
-        lbOrderId.setFont(f2);
-        this.add(lbOrderId);
+        backBtn = new Button("BACK");
+        backBtn.setFont(btnFont);
+        backBtn.setBackground(Color.gray);
+        backBtn.setBounds(w/2 - 100, h/3 + 120, 200, 50);
+        backBtn.addActionListener(this);
+        add(backBtn);
 
-        txtOrderId = new TextField();
-        txtOrderId.setBounds(70,200,100,30);
-        this.add(txtOrderId);
-
-        btnDeliver = new Button("Deliver");
-        btnDeliver.setBounds(70,200,100,30);
-        btnDeliver.addActionListener(this);
-        add(btnDeliver);
-
-        btnStatus = new Button("Status");
-        btnStatus.setBounds(180,200,100,30);
-        btnStatus.addActionListener(this);
-        add(btnStatus);
-
-        btnBack = new Button("Back");
-        btnBack.setBounds(290,200,80,30);
-        btnBack.addActionListener(this);
-        add(btnBack);
-
-        addWindowListener(new WindowAdapter(){
-            public void windowClosing(WindowEvent e){
-                dispose();
-            }
-        });
+        bottomCanvas = new Label("AgriChain — Transport Operations");
+        bottomCanvas.setAlignment(Label.CENTER);
+        bottomCanvas.setForeground(Color.gray);
+        bottomCanvas.setBounds(0, h - 80, w, 50);
+        add(bottomCanvas);
     }
 
     public void actionPerformed(ActionEvent e){
-
-        if(e.getSource()==btnDeliver){
-            Order o = new Order(txtOrderId.getText(),"buyer","crop",0,"PENDING");
-            ts.deliver(o);
+        if(e.getSource() == viewBtn){
+            System.out.println("View Transport Orders clicked");
         }
-        if(e.getSource()==btnStatus) {
-            Order o = new Order(txtOrderId.getText(), "buyer", "crop", 0, "PENDING");
-            ts.status(o);
+        if(e.getSource() == deliverBtn){
+            System.out.println("Delivery Thread started");
         }
-        if(e.getSource()==btnBack) {
-            dispose();
+        if(e.getSource() == backBtn){
             new LoginGui();
+            dispose();
         }
-
     }
-    public static void main(String[] args) {
-        new TransporterDashboard(null);
-    }
+    
 }

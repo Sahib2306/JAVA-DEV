@@ -1,0 +1,12 @@
+COMPILING THE PROJECT
+
+javac -cp ".;src;src/agrichain/data/sqlite-jdbc-3.51.0.0.jar" src/agrichain/main/*.java src/agrichain/**/*.java
+
+
+Run Test Database Connection
+
+java -cp ".;src;src/agrichain/data/sqlite-jdbc-3.51.0.0.jar" agrichain.main.TestDB
+
+Run Final Project (Main UI / Dashboard)
+
+java -cp ".;src;src/agrichain/data/sqlite-jdbc-3.51.0.0.jar" agrichain.main.AgriChainMain

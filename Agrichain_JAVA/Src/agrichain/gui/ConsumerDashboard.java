@@ -3,62 +3,60 @@ package agrichain.gui;
 import java.awt.*;
 import java.awt.event.*;
 
-import agrichain.service.ConsumerService;
-
 public class ConsumerDashboard extends Frame implements ActionListener {
 
-    Label lbTitle;
-    Button btnHistory, btnBack;
+    Label title, bottomCanvas;
+    Button viewBtn, backBtn;
 
-    ConsumerService cs = new ConsumerService();
-    String cid;
+    public ConsumerDashboard() {
 
-    public ConsumerDashboard(String id) {
-        cid = id;
+        setTitle("Consumer Dashboard");
+        setLayout(null);
+        setExtendedState(Frame.MAXIMIZED_BOTH);
+        setBackground(Color.black);
+        setVisible(true);
 
-        this.setTitle("Consumer Dashboard - " + id);
-        this.setSize(400, 300);
-        Color c = new Color(30, 30, 30);
-        this.setBackground(c);
-        this.setVisible(true);
-        this.setLayout(null);
+        Dimension s = Toolkit.getDefaultToolkit().getScreenSize();
+        int w = s.width;
+        int h = s.height;
 
-        Font f1 = new Font("Arial", Font.BOLD, 20);
+        Font titleFont = new Font("Arial", Font.BOLD, 45);
+        Font btnFont = new Font("Arial", Font.BOLD, 22);
 
-        lbTitle = new Label("Consumer Dashboard");
-        lbTitle.setBounds(110, 50, 250, 30);
-        lbTitle.setFont(f1);
-        Color foreGround = Color.WHITE;
-        lbTitle.setForeground(foreGround);
-        this.add(lbTitle);
+        title = new Label("CONSUMER DASHBOARD");
+        title.setFont(titleFont);
+        title.setForeground(new Color(0,255,150));
+        title.setBounds(w/2 - 300, h/6, 600, 60);
+        add(title);
 
-        btnHistory = new Button("View History");
-        btnHistory.setBounds(120, 140, 100, 30);
-        btnHistory.addActionListener(this);
-        add(btnHistory);
+        viewBtn = new Button("VIEW ORDERS");
+        viewBtn.setFont(btnFont);
+        viewBtn.setBackground(new Color(0,255,150));
+        viewBtn.setBounds(w/2 - 140, h/3, 280, 60);
+        viewBtn.addActionListener(this);
+        add(viewBtn);
 
-        btnBack = new Button("Back");
-        btnBack.setBounds(240, 140, 80, 30);
-        btnBack.addActionListener(this);
-        add(btnBack);
+        backBtn = new Button("BACK");
+        backBtn.setFont(btnFont);
+        backBtn.setBackground(Color.gray);
+        backBtn.setBounds(w/2 - 140, h/3 + 120, 280, 50);
+        backBtn.addActionListener(this);
+        add(backBtn);
 
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                dispose();
-            }
-        });
-
+        bottomCanvas = new Label("AgriChain — Consumer Operations");
+        bottomCanvas.setAlignment(Label.CENTER);
+        bottomCanvas.setForeground(Color.gray);
+        bottomCanvas.setBounds(0, h - 80, w, 50);
+        add(bottomCanvas);
     }
 
-    public void actionPerformed(ActionEvent e) {
-
-        if (e.getSource() == btnHistory) {
-            cs.history(cid);
+    public void actionPerformed(ActionEvent e){
+        if(e.getSource() == viewBtn){
+            System.out.println("View order history clicked");
         }
-
-        if (e.getSource() == btnBack) {
-            dispose();
+        if(e.getSource() == backBtn){
             new LoginGui();
+            dispose();
         }
     }
 }
