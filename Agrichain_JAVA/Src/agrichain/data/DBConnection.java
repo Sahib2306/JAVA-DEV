@@ -9,7 +9,9 @@ public class DBConnection {
         Connection con = null;
         try {
             Class.forName("org.sqlite.JDBC");
-            con = DriverManager.getConnection("jdbc:sqlite:Src/agrichain/data/agrichain.sqlite");
+            // con = DriverManager.getConnection("jdbc:sqlite:Src/agrichain/data/agrichain.sqlite");
+            con = DriverManager.getConnection("jdbc:sqlite:agrichain.db");
+
             System.out.println("DB Connected");
         }
         catch(Exception e) {
