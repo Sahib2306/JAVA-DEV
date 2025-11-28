@@ -3,6 +3,8 @@ package agrichain.gui;
 import java.awt.*;
 import java.awt.event.*;
 
+import agrichain.service.UserService;
+
 public class LoginGui extends Frame implements ActionListener {
 
     Label titleLabel, uidLabel, passLabel, roleLabel, bottomCanvas;
@@ -102,22 +104,29 @@ public class LoginGui extends Frame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == loginBtn) {
+            String id = uidField.getText();
+            String pass = passField.getText();
             String role = roleChoice.getSelectedItem();
 
-            if (role.equals("FARMER")) {
-                new FarmerDashboard();
-            }
-            else if (role.equals("BUYER")) {
-                new BuyerDashboard();
-            } 
-            else if (role.equals("CONSUMER")) {
-                new ConsumerDashboard();
-            } 
-            else if (role.equals("TRANSPORTER")) {
-                new TransporterDashboard();
-            }
+            UserService us = new UserService();
+            boolean ok = us.loginUser(id, pass, role);
 
-            dispose(); // close login
+            if (ok) {
+                System.out.println("Login Success");
+
+                if (role.equals("FARMER"))
+                    new FarmerDashboard(id);
+                if (role.equals("BUYER"))
+                    new BuyerDashboard(id);
+                if (role.equals("CONSUMER"))
+                    new ConsumerDashboard(id);
+                if (role.equals("TRANSPORTER"))
+                    new TransporterDashboard(id);
+
+                dispose();
+            } else {
+                System.out.println("Login Failed");
+            }
         }
 
         if (e.getSource() == signupBtn) {

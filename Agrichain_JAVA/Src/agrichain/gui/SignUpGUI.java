@@ -37,7 +37,7 @@ public class SignUpGUI extends Frame implements ActionListener, MouseListener {
         title = new Label("CREATE NEW ACCOUNT");
         title.setFont(titleFont);
         title.setForeground(new Color(0, 255, 136));
-        title.setBounds(centerX - 250, 80, 500, 60);
+        title.setBounds(centerX - 250, 80, 550, 60);
         add(title);
 
         idLabel = new Label("User ID:");
@@ -143,6 +143,7 @@ public class SignUpGUI extends Frame implements ActionListener, MouseListener {
                 st.executeUpdate(q);
 
                 statusArea.setText("Status: Registration Successful for ID: " + id);
+                new LoginGui();
                 con.close();
 
             } catch(Exception ex) {

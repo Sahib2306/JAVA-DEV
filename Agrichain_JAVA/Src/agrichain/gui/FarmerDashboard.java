@@ -2,6 +2,7 @@ package agrichain.gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import agrichain.service.FarmerService;
 
 public class FarmerDashboard extends Frame implements ActionListener {
 
@@ -9,7 +10,11 @@ public class FarmerDashboard extends Frame implements ActionListener {
     TextField cropField, qtyField, priceField;
     Button addBtn, viewBtn, backBtn;
 
-    public FarmerDashboard() {
+    FarmerService fs = new FarmerService();     // DB SERVICE CONNECTED
+    String farmerId;                            // LOGGED FARMER ID
+
+    public FarmerDashboard(String farmerId) {   // receive ID from login
+        this.farmerId = farmerId;
 
         setTitle("Farmer Dashboard");
         setLayout(null);
@@ -98,12 +103,26 @@ public class FarmerDashboard extends Frame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
+
         if(e.getSource() == addBtn){
-            System.out.println("Add crop clicked");
+            String name = cropField.getText().trim();
+            double qty = Double.parseDouble(qtyField.getText().trim());
+            double price = Double.parseDouble(priceField.getText().trim());
+
+            boolean ok = fs.addCrop(farmerId, name, qty, price);
+
+            if(ok){
+                System.out.println("Crop Added Successfully");
+            }else{
+                System.out.println("Failed to Add Crop");
+            }
         }
+
         if(e.getSource() == viewBtn){
-            System.out.println("View crops clicked");
+            new ViewCropsDashboard(farmerId);   // next screen
+            dispose();
         }
+
         if(e.getSource() == backBtn){
             new LoginGui();
             dispose();
