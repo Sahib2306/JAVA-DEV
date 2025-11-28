@@ -2,32 +2,36 @@ package agrichain.service;
 
 import java.sql.*;
 import agrichain.data.DBConnection;
-import agrichain.model.Crop;
 
 public class FarmerService {
 
-    // method to add new crop in the tables
-    public void addCrop(Crop c){ //accessing the constructor of crop class
+    public boolean addCrop(String farmerId, String name, double qty, double price) {
+        boolean flag = false;
 
-        try{
-            Connection conn = DBConnection.getConn();
-            PreparedStatement ps = conn.prepareStatement("Insert into crops values(?,?,?,?,?");
+        try {
+            Connection con = DBConnection.getConn();
 
-            ps.setString(1,c.getCropId());
-            ps.setString(2, c.getFarmerId());
-            ps.setString(3, c.getCropName());
-            ps.setDouble(4, c.getQuantity());
-            ps.setDouble(5,c.getPrice());
+            String q = "INSERT INTO crops(farmerid, cropname, qty, price) VALUES(?, ?, ?, ?)";
 
-            ps.executeUpdate();
-            conn.close();
+            PreparedStatement ps = con.prepareStatement(q);
+            ps.setString(1, farmerId);
+            ps.setString(2, name);
+            ps.setDouble(3, qty);
+            ps.setDouble(4, price);
 
+            int x = ps.executeUpdate();
+            if(x > 0){
+                flag = true;
+                System.out.println("DB Insert Successful");
+            }
 
-
+            ps.close();
+            con.close();
+        }
+        catch (Exception e){
+            System.out.println("Add Crop Error: " + e);
         }
 
-        catch(Exception e){
-            System.out.println("Failed to Add crop!");
-        }
+        return flag;
     }
 }
